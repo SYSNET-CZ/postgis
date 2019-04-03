@@ -16,9 +16,6 @@ ENV LC_ALL cs_CZ.UTF-8
 
 RUN apt-get -y install gnupg2 wget ca-certificates rpl pwgen
 
-# RUN localedef -i cs_CZ -c -f UTF-8 -A /usr/share/locale/locale.alias cs_CZ.UTF-8
-# ENV LANG cs_CZ.utf8
-
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
