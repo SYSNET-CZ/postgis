@@ -8,10 +8,11 @@ RUN  dpkg-divert --local --rename --add /sbin/initctl
 
 RUN apt-get clean && apt-get update && apt-get install -y locales
 
-RUN locale-gen cs_CZ.UTF-8  
+RUN localedef -i cs_CZ -c -f UTF-8 -A /usr/share/locale/locale.alias cs_CZ.UTF-8
+RUN sed -i -e 's/# cs_CZ.UTF-8 UTF-8/cs_CZ.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
 ENV LANG cs_CZ.UTF-8  
 ENV LANGUAGE cs_CZ:cs  
-ENV LC_ALL cs_CZ.UTF-8  
+ENV LC_ALL cs_CZ.UTF-8   
 
 RUN apt-get -y install gnupg2 wget ca-certificates rpl pwgen
 
