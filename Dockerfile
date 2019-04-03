@@ -13,6 +13,19 @@ RUN sed -i -e 's/# cs_CZ.UTF-8 UTF-8/cs_CZ.UTF-8 UTF-8/' /etc/locale.gen && loca
 ENV LANG cs_CZ.UTF-8  
 ENV LANGUAGE cs_CZ:cs  
 ENV LC_ALL cs_CZ.UTF-8   
+ENV LC_CTYPE="cs_CZ.UTF-8"
+ENV LC_NUMERIC="cs_CZ.UTF-8"
+ENV LC_TIME="cs_CZ.UTF-8"
+ENV LC_COLLATE="cs_CZ.UTF-8"
+ENV LC_MONETARY="cs_CZ.UTF-8"
+ENV LC_MESSAGES="cs_CZ.UTF-8"
+ENV LC_PAPER="cs_CZ.UTF-8"
+ENV LC_NAME="cs_CZ.UTF-8"
+ENV LC_ADDRESS="cs_CZ.UTF-8"
+ENV LC_TELEPHONE="cs_CZ.UTF-8"
+ENV LC_MEASUREMENT="cs_CZ.UTF-8"
+ENV LC_IDENTIFICATION="cs_CZ.UTF-8"
+
 
 RUN apt-get -y install gnupg2 wget ca-certificates rpl pwgen
 
