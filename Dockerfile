@@ -6,10 +6,17 @@ RUN  export DEBIAN_FRONTEND=noninteractive
 ENV  DEBIAN_FRONTEND noninteractive
 RUN  dpkg-divert --local --rename --add /sbin/initctl
 
-RUN apt-get -y update
+RUN apt-get clean && apt-get update && apt-get install -y locales
+
+RUN locale-gen cs_CZ.UTF-8  
+ENV LANG cs_CZ.UTF-8  
+ENV LANGUAGE cs_CZ:cs  
+ENV LC_ALL cs_CZ.UTF-8  
+
 RUN apt-get -y install gnupg2 wget ca-certificates rpl pwgen
-RUN localedef -i cs_CZ -c -f UTF-8 -A /usr/share/locale/locale.alias cs_CZ.UTF-8
-ENV LANG cs_CZ.utf8
+
+# RUN localedef -i cs_CZ -c -f UTF-8 -A /usr/share/locale/locale.alias cs_CZ.UTF-8
+# ENV LANG cs_CZ.utf8
 
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
