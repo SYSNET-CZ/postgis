@@ -2,7 +2,7 @@
 # Commit and redeploy the user map container
 #
 if [ $# -ne 1 ]; then
-    echo "Commit and then redeploy the user_map container."
+    echo "Commit and then redeploy the sysnetcz/postgis container."
     echo "Usage:"
     echo "$0 <version>"
     echo "e.g.:"
@@ -13,12 +13,18 @@ if [ $# -ne 1 ]; then
 fi
 VERSION=$1
 HOST_DATA_DIR=/local/data/postgres
-PGUSER=postgres
-PGPASS=postgres
+PGUSER=docker
+PGPASS=docker
 
-IDFILE=/home/timlinux/postgis-current-container.id
-ID=`cat $IDFILE`
-docker commit $ID sysnetcz/postgis:$VERSION -run='{"Cmd": ["/start.sh"], "PortSpecs": ["5432"], "Hostname": "postgis"}' -author="Radim Jaeger <rjaeger@sysnet.cz>"
+IDFILE=${pwd}/data/postgis-current-container.id
+ID=docker inspect --format="{{.Id}}" sysnetcz/postgis:latest
+
+if [ -f "$IDFILE" ]; then
+    ID=`cat $IDFILE`
+else 
+    echo $ID > $IDFILE
+fi
+docker commit $ID sysnetcz/postgis:$VERSION --run='{"Cmd": ["/start.sh"], "PortSpecs": ["5432"], "Hostname": "postgis"}' --author="Radim Jaeger <rjaeger@sysnet.cz>"
 docker kill $ID
 docker rm $ID
 rm $IDFILE
@@ -26,7 +32,7 @@ if [ ! -d $HOST_DATA_DIR ]
 then
     mkdir $HOST_DATA_DIR
 fi
-CMD="docker run -cidfile="$IDFILE" -name="postgis" -e POSTGRES_USER=$PGUSER -e POSTGRES_PASS=$PGPASS -d -v $HOST_DATA_DIR:/var/lib/postgresql -t sysnetcz/postgis:$VERSION /start.sh"
+CMD="docker run --cidfile="$IDFILE" --name="postgis" -e POSTGRES_USER=$PGUSER -e POSTGRES_PASS=$PGPASS -d -v $HOST_DATA_DIR:/var/lib/postgresql -t sysnetcz/postgis:$VERSION /start.sh"
 echo 'Running:'
 echo $CMD
 eval $CMD
