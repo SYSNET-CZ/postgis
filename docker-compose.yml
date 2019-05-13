@@ -8,7 +8,7 @@ volumes:
 services:
 
   db:
-    image: sysnetcz/postgis:11.0-2.5
+    image: sysnetcz/postgis:latest
     volumes:
       - postgis-data:/var/lib/postgresql
       - dbbackups:/backups
