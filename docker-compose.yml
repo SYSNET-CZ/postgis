@@ -1,5 +1,5 @@
 # docker-compose build
-# docker-compose up -d web
+# docker-compose up -d
 version: '2.1'
 volumes:
   dbbackups:
@@ -8,11 +8,11 @@ volumes:
 services:
   db:
     image: sysnetcz/postgis:latest
+    networks:
+      - backend
     volumes:
       - postgis-data:/var/lib/postgresql
       - dbbackups:/backups
-    networks:
-¨     - backend
     environment:
       # If you need to create multiple database you can add coma separated databases eg gis,data
       - POSTGRES_DB=gis
