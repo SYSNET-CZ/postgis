@@ -1,5 +1,5 @@
 #--------- Generic stuff all our Dockerfiles should start with so we get caching ------------
-FROM debian:stable
+FROM debian:stretch
 MAINTAINER Radim Jaeger <rjaeger@sysnet.cz>
 
 RUN  export DEBIAN_FRONTEND=noninteractive
@@ -10,22 +10,21 @@ RUN apt-get clean && apt-get update && apt-get install -y locales
 
 RUN localedef -i cs_CZ -c -f UTF-8 -A /usr/share/locale/locale.alias cs_CZ.UTF-8
 RUN sed -i -e 's/# cs_CZ.UTF-8 UTF-8/cs_CZ.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
-ENV LANG cs_CZ.UTF-8  
-ENV LANGUAGE cs_CZ:cs  
-ENV LC_ALL cs_CZ.UTF-8   
-ENV LC_CTYPE="cs_CZ.UTF-8"
-ENV LC_NUMERIC="cs_CZ.UTF-8"
-ENV LC_TIME="cs_CZ.UTF-8"
-ENV LC_COLLATE="cs_CZ.UTF-8"
-ENV LC_MONETARY="cs_CZ.UTF-8"
-ENV LC_MESSAGES="cs_CZ.UTF-8"
-ENV LC_PAPER="cs_CZ.UTF-8"
-ENV LC_NAME="cs_CZ.UTF-8"
-ENV LC_ADDRESS="cs_CZ.UTF-8"
-ENV LC_TELEPHONE="cs_CZ.UTF-8"
-ENV LC_MEASUREMENT="cs_CZ.UTF-8"
-ENV LC_IDENTIFICATION="cs_CZ.UTF-8"
-
+ENV LANG=cs_CZ.UTF-8 \
+    LANGUAGE=cs_CZ:cs \
+    LC_ALL=cs_CZ.UTF-8 \
+    LC_CTYPE="cs_CZ.UTF-8" \
+    LC_NUMERIC="cs_CZ.UTF-8" \
+    LC_TIME="cs_CZ.UTF-8" \
+    LC_COLLATE="cs_CZ.UTF-8" \
+    LC_MONETARY="cs_CZ.UTF-8" \
+    LC_MESSAGES="cs_CZ.UTF-8" \
+    LC_PAPER="cs_CZ.UTF-8" \
+    LC_NAME="cs_CZ.UTF-8" \
+    LC_ADDRESS="cs_CZ.UTF-8" \
+    LC_TELEPHONE="cs_CZ.UTF-8" \
+    LC_MEASUREMENT="cs_CZ.UTF-8" \
+    LC_IDENTIFICATION="cs_CZ.UTF-8"
 
 RUN apt-get -y install gnupg2 wget ca-certificates rpl pwgen
 
@@ -37,7 +36,7 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
 # We add postgis as well to prevent build errors (that we dont see on local builds) on docker hub e.g.
 # The following packages have unmet dependencies:
 RUN apt-get update; apt-get install -y postgresql-client-11 postgresql-common postgresql-11 postgresql-11-postgis-2.5 postgresql-11-pgrouting netcat
-RUN apt-get install osm2pgsql
+RUN apt-get install -y osm2pgsql
 
 # Open port 5432 so linked containers can see them
 EXPOSE 5432
