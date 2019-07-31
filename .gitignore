@@ -4,3 +4,4 @@
 */replication/docker-compose.override.yml
 .DS_Store
 /data/
+/dump/
