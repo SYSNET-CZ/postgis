@@ -51,7 +51,7 @@ for db in $(echo ${POSTGRES_DBNAME} | tr ',' ' '); do
         RESULT=`su - postgres -c "psql -l | grep -w ${db} | wc -l"`
         if [[ ! ${RESULT} == '1' ]]; then
             echo "Create db ${db}"
-            su - postgres -c "createdb  -O ${POSTGRES_USER} -E UTF8 -l cs_CZ.UTF-8 ${db}"
+            su - postgres -c "createdb --owner=${POSTGRES_USER} --encoding=UTF8 --locale=cs_CZ.UTF-8 --template=template0 ${db}"
             for ext in $(echo ${POSTGRES_MULTIPLE_EXTENSIONS} | tr ',' ' '); do
                 echo "Enabling ${ext} in the database ${db}"
                 su - postgres -c "psql -c 'CREATE EXTENSION IF NOT EXISTS ${ext} cascade;' $db"
