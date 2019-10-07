@@ -52,5 +52,7 @@ if [[ -z "$REPLICATE_FROM" ]]; then
 	echo "host replication all 0.0.0.0/0 $authMethod" >> ${ROOT_CONF}/pg_hba.conf
 fi
 
+echo "host all all 0.0.0.0/0 md5" >> ${ROOT_CONF}/pg_hba.conf
+
 # Put lock file to make sure conf was not reinitialized
 touch ${SETUP_LOCKFILE}
